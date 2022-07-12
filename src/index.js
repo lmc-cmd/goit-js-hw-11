@@ -14,23 +14,29 @@ const lightbox = new SimpleLightbox('.gallery a');
 btnMore.classList.add(`is-hidden`);
 
 const onFormSubmit = e => {
+  btnMore.classList.add(`is-hidden`);
   e.preventDefault();
+  console.log('galleryApi.q :>> ', galleryApi.q);
   const searchQuery = e.currentTarget.elements.searchQuery.value.trim(' ');
 
+  //   if ((galleryApi.q = searchQuery)) {
+  //     galleryApi.page += 1;
+  //   }
   galleryApi.searchQuery = searchQuery;
   if (!searchQuery) {
     return;
   }
   galleryApi.fetchGallery().then(data => {
-    galleryApi.page += 1;
     galleryDiv.innerHTML = createGallery(data.hits);
     lightbox.refresh();
     if (data.hits == 0) {
+      galleryDiv.innerHTML = '';
       Notiflix.Notify.info(
         "We're sorry, but you've reached the end of search results."
       );
     } else {
       Notiflix.Notify.info(`${data.totalHits} images found`);
+      // умловие totla hits - hits или load
       btnMore.classList.remove(`is-hidden`);
     }
   });

@@ -41,10 +41,14 @@
 //   margin: 0;
 //   padding: 100px 15px 15px;
 // }
-// button {
-//   cursor: pointer;
-// }
-
+button {
+  cursor: pointer;
+}
+.load-more {
+  background-color: blue;
+  margin-top: 25px;
+  color: aliceblue;
+}
 .gallery {
   display: flex;
   flex-wrap: wrap;
