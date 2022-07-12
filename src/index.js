@@ -16,12 +16,13 @@ btnMore.classList.add(`is-hidden`);
 const onFormSubmit = e => {
   btnMore.classList.add(`is-hidden`);
   e.preventDefault();
-  console.log('galleryApi.q :>> ', galleryApi.q);
   const searchQuery = e.currentTarget.elements.searchQuery.value.trim(' ');
+  if (e.currentTarget.elements.searchQuery.value === galleryApi.searchQuery) {
+    galleryApi.page += 1;
+  } else {
+    galleryApi.page = 1;
+  }
 
-  //   if ((galleryApi.q = searchQuery)) {
-  //     galleryApi.page += 1;
-  //   }
   galleryApi.searchQuery = searchQuery;
   if (!searchQuery) {
     return;
@@ -29,15 +30,22 @@ const onFormSubmit = e => {
   galleryApi.fetchGallery().then(data => {
     galleryDiv.innerHTML = createGallery(data.hits);
     lightbox.refresh();
-    if (data.hits == 0) {
+    //   if (galleryApi.per_page >= data.totalHits) {
+    //   btnMore.classList.add(`is-hidden`);
+    //   Notiflix.Notify.info(
+    //     "We're sorry, but you've reached the end of search results."
+    //   );}
+    if (data.hits.length == 0) {
       galleryDiv.innerHTML = '';
       Notiflix.Notify.info(
-        "We're sorry, but you've reached the end of search results."
+        'Sorry, there are no images matching your search query. Please try again.'
       );
     } else {
-      Notiflix.Notify.info(`${data.totalHits} images found`);
-      // умловие totla hits - hits или load
-      btnMore.classList.remove(`is-hidden`);
+      Notiflix.Notify.info(`Hooray! We found ${data.totalHits} images`);
+      // умловие totla hits - load (если больше 0 кнопка достпуна)
+      if (data.hits.length >= 40) {
+        btnMore.classList.remove(`is-hidden`);
+      }
     }
   });
 };
@@ -49,5 +57,11 @@ btnMore.addEventListener('click', e => {
   galleryApi.fetchGallery().then(data => {
     galleryDiv.insertAdjacentHTML('beforeend', createGallery(data.hits));
     lightbox.refresh();
+    if (galleryApi.per_page >= data.totalHits) {
+      btnMore.classList.add(`is-hidden`);
+      Notiflix.Notify.info(
+        "We're sorry, but you've reached the end of search results."
+      );
+    }
   });
 });
