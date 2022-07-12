@@ -28,8 +28,10 @@ export class GalleryApi {
         });
     }
   }
-  onbtnMoreClick() {
+  onSerachMoreClick() {
     this.page += 1;
+    //   galleryApi.fetchGallery();
+    //   lightbox.refresh();
   }
 }
 
