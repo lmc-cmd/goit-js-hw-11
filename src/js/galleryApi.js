@@ -6,6 +6,8 @@ export class GalleryApi {
   constructor() {
     this.searchQuery = null;
     this.qryParams = `&image_type=photo&orientation=horizontal&safesearch=true`;
+    this.page = 1;
+    this.per_page = 40;
   }
 
   fetchGallery() {
@@ -13,7 +15,7 @@ export class GalleryApi {
       return fetch(
         `${this.BASE_URL}${this.#API_KEY}&q=${this.searchQuery}${
           this.qryParams
-        }`
+        }&page=${this.page}&per_page=${this.per_page}`
       )
         .then(response => {
           if (!response.ok) {
@@ -25,6 +27,9 @@ export class GalleryApi {
           Notify.failure(`Oops`);
         });
     }
+  }
+  onbtnMoreClick() {
+    this.page += 1;
   }
 }
 
