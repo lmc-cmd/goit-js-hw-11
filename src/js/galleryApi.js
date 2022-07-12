@@ -1,18 +1,20 @@
 import axios from 'axios';
 import { Notify } from 'notiflix';
 export class GalleryApi {
-  BASE_URL = `https://pixabay.com/api/`;
-  #API_KEY = `?key=28565212-8c9ed398fcabaa2964ef9aef5`;
+  BASE_URL = 'https://pixabay.com/api/';
+  #API_KEY = '?key=28565212-8c9ed398fcabaa2964ef9aef5';
   constructor() {
-    qrySrc = null;
-    qryParams = `&q=${qrySrc}&image_type=photo&orientation=horizontal&safesearch=true`;
-    qryfields = `&webformatURL,largeImageURL,tags,likes,views,comments,downloads`;
+    this.searchQuery = null;
+    this.qryParams = `&image_type=photo&orientation=horizontal&safesearch=true`;
+    // this.qryfields = `&fields=totalHits,webformatURL,largeImageURL,tags,likes,views,comments,downloads`;
   }
 
   fetchGallery() {
-    if (this.qrySrc) {
+    if (this.searchQuery) {
       return fetch(
-        `${this.BASE_URL}${this.#API_KEY}${this.qryParams}${this.qryfields}`
+        `${this.BASE_URL}${this.#API_KEY}&q=${this.searchQuery}${
+          this.qryParams
+        }`
       )
         .then(response => {
           if (!response.ok) {
@@ -26,6 +28,8 @@ export class GalleryApi {
     }
   }
 }
+
+// // ghjghjhjghjhgj
 
 // https://pixabay.com/api/?key=28565212-8c9ed398fcabaa2964ef9aef5&q=yellow+flowers&image_type=photo
 
