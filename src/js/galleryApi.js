@@ -6,7 +6,6 @@ export class GalleryApi {
   constructor() {
     this.searchQuery = null;
     this.qryParams = `&image_type=photo&orientation=horizontal&safesearch=true`;
-    // this.qryfields = `&fields=totalHits,webformatURL,largeImageURL,tags,likes,views,comments,downloads`;
   }
 
   fetchGallery() {
